@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation?label=%E4%B8%8B%E8%BD%BD&color=1e9bff&style=for-the-badge" alt="下载"></a>
+  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration?label=%E4%B8%8B%E8%BD%BD&color=1e9bff&style=for-the-badge" alt="下载"></a>
   <img src="https://img.shields.io/badge/Windows%2011-64%20%E4%BD%8D-0078D4?style=for-the-badge&logo=windows11&logoColor=white" alt="Windows 11 64 位">
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/%E9%9D%9E%E5%95%86%E4%B8%9A%E7%94%A8%E9%80%94-%E5%85%8D%E8%B4%B9-2ea44f?style=for-the-badge" alt="非商业用途免费"></a>
 </p>
@@ -56,7 +56,7 @@ SciPlayer 正是为这种“细看”而设计的。
 
 ## 一分钟上手
 
-1. 从[最新版本](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest)下载 **`SciPlayer-<版本>-Setup-x64.exe`**。
+1. 从[最新版本](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest)下载 **`SciPlayer-<版本>-Setup-x64.exe`**。
 2. 运行安装程序。无需安装任何其他软件（不需要 Python，也不需要 MATLAB）；选择“只为我自己安装”时无需管理员权限。*（安装程序暂未进行代码签名，Windows 可能提示“Windows 已保护你的电脑”：点击**更多信息**，再点击**仍要运行**。）*
 3. 双击视频文件，或把它拖到窗口中，然后拖动进度条。就这么简单。
 
@@ -115,7 +115,7 @@ SciPlayer 正是为这种“细看”而设计的。
 * macOS 版本。
 * 标定后的距离与角度测量、两段录像并排对比。
 
-欢迎在 [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/issues) 中告诉我们你的需求，也非常欢迎反馈问题与建议。
+欢迎在 [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/issues) 中告诉我们你的需求，也非常欢迎反馈问题与建议。
 
 ## 许可
 

@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation?label=download&color=1e9bff&style=for-the-badge" alt="Download"></a>
+  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration?label=download&color=1e9bff&style=for-the-badge" alt="Download"></a>
   <img src="https://img.shields.io/badge/Windows%2011-64--bit-0078D4?style=for-the-badge&logo=windows11&logoColor=white" alt="Windows 11, 64-bit">
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/free-non--commercial%20use-2ea44f?style=for-the-badge" alt="Free for non-commercial use"></a>
 </p>
@@ -62,7 +62,7 @@ Anyone who needs to see **exactly when and where** something happens in a video:
 ## Get started in a minute
 
 1. Download **`SciPlayer-<version>-Setup-x64.exe`** from
-   [the latest release](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest).
+   [the latest release](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest).
 2. Run it. It needs nothing else (no Python, no MATLAB) and no administrator rights if you choose
    *Install just for me*. *(The installer is not code-signed yet, so Windows may show "Windows protected
    your PC": click **More info**, then **Run anyway**.)*
@@ -142,7 +142,7 @@ exports always come from the exact frames.
 * A macOS build.
 * Calibrated distances and angles, side-by-side comparison of two recordings.
 
-Tell us what you need in [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/issues).
+Tell us what you need in [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/issues).
 Bug reports and ideas are very welcome.
 
 ## Licence

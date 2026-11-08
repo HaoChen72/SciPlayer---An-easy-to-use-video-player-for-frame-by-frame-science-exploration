@@ -1,4 +1,4 @@
-Required Notice: Copyright (c) 2026 Hao Chen (https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation)
+Required Notice: Copyright (c) 2026 Hao Chen (https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration)
 
 SciPlayer is free to use, copy, change and share for any non-commercial purpose: research, teaching, study, personal use, and use by charitable, educational, public research and government organisations, under the PolyForm Noncommercial License 1.0.0 below. Commercial use needs a separate licence from the copyright holder.
 

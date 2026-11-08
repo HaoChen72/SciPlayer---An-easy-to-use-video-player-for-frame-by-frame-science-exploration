@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation?label=%E4%B8%8B%E8%BC%89&color=1e9bff&style=for-the-badge" alt="下載"></a>
+  <a href="https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest"><img src="https://img.shields.io/github/v/release/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration?label=%E4%B8%8B%E8%BC%89&color=1e9bff&style=for-the-badge" alt="下載"></a>
   <img src="https://img.shields.io/badge/Windows%2011-64%20%E4%BD%8D%E5%85%83-0078D4?style=for-the-badge&logo=windows11&logoColor=white" alt="Windows 11 64 位元">
   <a href="LICENSE.md"><img src="https://img.shields.io/badge/%E9%9D%9E%E5%95%86%E6%A5%AD%E7%94%A8%E9%80%94-%E5%85%8D%E8%B2%BB-2ea44f?style=for-the-badge" alt="非商業用途免費"></a>
 </p>
@@ -56,7 +56,7 @@ SciPlayer 正是為這種「細看」而設計的。
 
 ## 一分鐘上手
 
-1. 從[最新版本](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/releases/latest)下載 **`SciPlayer-<版本>-Setup-x64.exe`**。
+1. 從[最新版本](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/releases/latest)下載 **`SciPlayer-<版本>-Setup-x64.exe`**。
 2. 執行安裝程式。不需要安裝任何其他軟體（不需要 Python，也不需要 MATLAB）；選擇「僅安裝給自己」時不需要系統管理員權限。*（安裝程式尚未進行程式碼簽章，Windows 可能顯示「Windows 已保護您的電腦」：請按**其他資訊**，再按**仍要執行**。）*
 3. 按兩下影片檔，或把它拖到視窗中，然後拖曳進度列。就這麼簡單。
 
@@ -115,7 +115,7 @@ SciPlayer 正是為這種「細看」而設計的。
 * macOS 版本。
 * 經校正的距離與角度量測、兩段錄影並排比較。
 
-歡迎在 [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation/issues) 中告訴我們你的需求，也非常歡迎回報問題與提供建議。
+歡迎在 [Issues](https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-exploration/issues) 中告訴我們你的需求，也非常歡迎回報問題與提供建議。
 
 ## 授權
 
