@@ -84,8 +84,8 @@ VIAddVersionKey "LegalCopyright" "${PUBLISHER}"
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
 LangString T_WELCOME ${LANG_ENGLISH} "SciPlayer is a video player for scientific recordings: scrub and play any video, TIFF stack or MAT-file, see the relative change (dF/F) against a baseline you choose, and follow the mean intensity of the whole frame and of your own regions over time.$\r$\n$\r$\nEverything it needs is included; nothing else has to be installed.$\r$\n$\r$\nClick Next to continue."
-LangString T_WELCOME ${LANG_SIMPCHINESE} "SciPlayer 是为科学记录设计的视频播放器：可流畅拖动、逐帧查看和播放任何视频、TIFF 序列或 MAT 文件，显示相对于所选基线的相对变化 (dF/F)，并跟踪整个画面及自定义区域的平均强度随时间的变化。$\r$\n$\r$\n所需的一切均已包含，无需另外安装任何软件。$\r$\n$\r$\n单击“下一步”继续。"
-LangString T_WELCOME ${LANG_TRADCHINESE} "SciPlayer 是為科學記錄設計的影片播放器：可流暢拖曳、逐格檢視與播放任何影片、TIFF 序列或 MAT 檔，顯示相對於所選基線的相對變化 (dF/F)，並追蹤整個畫面及自訂區域的平均強度隨時間的變化。$\r$\n$\r$\n所需的一切均已包含，無需另外安裝任何軟體。$\r$\n$\r$\n按「下一步」繼續。"
+LangString T_WELCOME ${LANG_SIMPCHINESE} "SciPlayer（盯帧王中王）是为科学记录设计的视频播放器：可流畅拖动、逐帧查看和播放任何视频、TIFF 序列或 MAT 文件，显示相对于所选基线的相对变化 (dF/F)，并跟踪整个画面及自定义区域的平均强度随时间的变化。$\r$\n$\r$\n所需的一切均已包含，无需另外安装任何软件。$\r$\n$\r$\n单击“下一步”继续。"
+LangString T_WELCOME ${LANG_TRADCHINESE} "SciPlayer（盯幀王中王）是為科學記錄設計的影片播放器：可流暢拖曳、逐格檢視與播放任何影片、TIFF 序列或 MAT 檔，顯示相對於所選基線的相對變化 (dF/F)，並追蹤整個畫面及自訂區域的平均強度隨時間的變化。$\r$\n$\r$\n所需的一切均已包含，無需另外安裝任何軟體。$\r$\n$\r$\n按「下一步」繼續。"
 LangString T_RUN ${LANG_ENGLISH} "Start SciPlayer"
 LangString T_RUN ${LANG_SIMPCHINESE} "启动 SciPlayer"
 LangString T_RUN ${LANG_TRADCHINESE} "啟動 SciPlayer"

@@ -7,7 +7,8 @@
 <p align="center">
   <b>The video player for looking closely.</b><br>
   Drag through any recording, of any size, and every frame follows smoothly, at full resolution.<br>
-  Step frame by frame, see what changed, and measure it.
+  Step frame by frame, see what changed, and measure it.<br>
+  <sub>Known in Chinese as <b>盯帧王中王</b>, the king of frame-watchers.</sub>
 </p>
 
 <p align="center">

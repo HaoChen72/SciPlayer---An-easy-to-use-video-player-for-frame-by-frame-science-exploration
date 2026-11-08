@@ -44,6 +44,11 @@ def fonts():
     return latin + ['Inter', 'Helvetica Neue', 'Arial']
 
 
+def nickname():
+    """SciPlayer's Chinese nickname, shown beside the name in Chinese ('' in English)"""
+    return {'zh_CN': '盯帧王中王', 'zh_TW': '盯幀王中王'}.get(_lang, '')
+
+
 def tr(text):
     if _lang == 'en':
         return text

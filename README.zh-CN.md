@@ -2,7 +2,7 @@
   <img src="windows/assets/sciplayer_256.png" width="120" alt="SciPlayer 图标">
 </p>
 
-<h1 align="center">SciPlayer</h1>
+<h1 align="center">SciPlayer · 盯帧王中王</h1>
 
 <p align="center">
   <b>为细看而生的视频播放器。</b><br>

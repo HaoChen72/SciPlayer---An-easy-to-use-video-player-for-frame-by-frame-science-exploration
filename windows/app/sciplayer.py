@@ -693,7 +693,7 @@ class Player(QtWidgets.QMainWindow):
         self.vb1.sigRangeChanged.connect(lambda *a: self.redraw.isActive() or self.redraw.start())
         self.vb1.sigResized.connect(lambda *a: self.redraw.isActive() or self.redraw.start())
         self.hint = pg.TextItem('', anchor=(0.5, 0.5))
-        self._tr_funcs.append(lambda: self.hint.setText(tr('Open a recording, or drop a file here')) if self.hint is not None else None)
+        self._tr_funcs.append(self._hint_text)
         f = QtGui.QFont()
         f.setPointSize(13)
         self.hint.setFont(f)
@@ -814,6 +814,17 @@ class Player(QtWidgets.QMainWindow):
                                                     (self._settings().value('language', '') or i18n.system_language()))
         self.set_language(lang, save=False)
         self.apply_theme(self._settings().value('theme', '') or theme.system_theme(), save=False)
+
+    def _hint_text(self):
+        """the start screen: what to do, and in Chinese the name with its nickname above it"""
+        if self.hint is None:
+            return
+        nick = i18n.nickname()
+        if not nick:
+            self.hint.setText(tr('Open a recording, or drop a file here'))
+            return
+        self.hint.setHtml('<div style="text-align:center"><span style="font-size:22pt; font-weight:600">%s · %s</span>'
+                          '<br><br>%s</div>' % (APP_NAME, nick, tr('Open a recording, or drop a file here')))
 
     def _show_help(self):
         QtWidgets.QToolTip.showText(self.b_help.mapToGlobal(QtCore.QPoint(0, self.b_help.height())), tr(i18n.HELP_EN), self.b_help)
