@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use SciPlayer in your work, please cite it as below."
+title: "SciPlayer: an easy-to-use video player for frame-by-frame scientific investigation"
+type: software
+authors:
+  - family-names: Chen
+    given-names: Hao
+version: 1.3.5
+date-released: 2026-11-08
+license: PolyForm-Noncommercial-1.0.0
+repository-code: "https://github.com/HaoChen72/SciPlayer---An-easy-to-use-video-player-for-frame-by-frame-science-investigation"
+keywords:
+  - video player
+  - frame-by-frame
+  - scientific imaging
+  - calcium imaging
+  - dF/F
+  - region of interest

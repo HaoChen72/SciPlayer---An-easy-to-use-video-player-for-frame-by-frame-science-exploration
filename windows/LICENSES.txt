@@ -1,0 +1,33 @@
+SciPlayer for Windows - licences
+================================
+
+SciPlayer itself (the program in app\ and SciPlayer.exe) is Copyright (c) 2026 Hao Chen and is
+licensed under the PolyForm Noncommercial License 1.0.0: free for any non-commercial purpose.
+The full terms are in LICENSE.txt beside this file.
+
+SciPlayer ships with a private copy of the software below, inside its installation folder
+(runtime\). None of it is changed. Each keeps its own licence, which the non-commercial terms of
+SciPlayer do not change. The full licence texts are with the components (runtime\Lib\site-packages\
+*.dist-info\, runtime\Library\, runtime\LICENSE_PYTHON.txt), and their sources are linked below.
+
+  Python 3.12 (conda-forge build)     Python Software Foundation License
+  Qt 6 / PySide6 / Shiboken6          GNU LGPL v3 (unmodified, dynamically loaded libraries that can be replaced)
+  FFmpeg 9 (conda-forge "lgpl" build) GNU LGPL v3 or later, as the build reports (no GPL parts: no x264, no x265)
+  PyAV                                BSD-3-Clause
+  pyqtgraph                           MIT
+  NumPy                               BSD-3-Clause (OpenBLAS: BSD-3-Clause)
+  SciPy                               BSD-3-Clause
+  h5py / HDF5                         BSD-3-Clause / HDF5 licence (BSD-style)
+  tifffile                            BSD-3-Clause
+  Pillow                              MIT-CMU (HPND)
+  sounddevice / PortAudio             MIT / MIT-style
+  cffi / pycparser / colorama         MIT / BSD-3-Clause / BSD-3-Clause
+  Microsoft Visual C++ runtime        redistributable under the Visual Studio licence terms
+
+The LGPL libraries (Qt, FFmpeg and the LGPL libraries FFmpeg uses) are separate DLLs that SciPlayer
+loads at run time; you may replace them with your own builds. Their source code:
+  Qt          https://download.qt.io/official_releases/qt/
+  PySide6     https://code.qt.io/cgit/pyside/pyside-setup.git/
+  FFmpeg      https://ffmpeg.org/download.html  (build recipe: https://github.com/conda-forge/ffmpeg-feedstock)
+  PyAV        https://github.com/PyAV-Org/PyAV  (build recipe: https://github.com/conda-forge/av-feedstock)
+  others      the conda-forge feedstock of each package below: https://github.com/conda-forge/<name>-feedstock

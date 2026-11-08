@@ -1,0 +1,17 @@
+# build output and caches (windows/build_windows.sh)
+windows/dist/
+windows/_build/
+windows/.venv/
+windows/launcher/*.o
+windows/launcher/*.exe
+__pycache__/
+*.pyc
+
+# test recordings written by windows/test/make_*.py (large; made again by those scripts)
+windows/test/*.avi
+windows/test/*.mp4
+windows/test/*.mkv
+windows/test/*.tif
+windows/test/*.mat
+windows/test/*.npy
+windows/test/*.log
