@@ -1,4 +1,4 @@
-# SciPlayer for Windows 1.3.5
+# SciPlayer for Windows 1.4.0
 
 The Windows 11 (64-bit) edition of SciPlayer: the same window and behaviour as
 `sciplayer.m` 0.2.0, as an installable program that needs nothing else on the
@@ -28,7 +28,7 @@ computer (no MATLAB, no Python). It ships its own Python 3.12, Qt 6 and FFmpeg.
 
 ## Install
 
-Run `dist\SciPlayer-1.3.5-Setup-x64.exe`. It installs over an earlier version; there is no need to
+Run `dist\SciPlayer-1.4.0-Setup-x64.exe`. It installs over an earlier version; there is no need to
 uninstall that first.
 
 * The installer first asks for its language, every time it runs, with the
@@ -78,6 +78,12 @@ As in MATLAB:
   in both panels of the relative view together. When zoomed in, drag the frame
   to move around. Double-click or Ctrl+0 shows the whole frame again. The
   wheel alone still scrolls through frames, and ROIs are drawn as usual.
+* **Brightness and contrast** of the original frame: two sliders in the
+  toolbar. They change only how the original is drawn, that is its display
+  range: contrast narrows or widens the range (up to 4 × either way) and
+  brightness moves it. The values themselves, the relative change (dF/F),
+  traces, ROI means and exports stay exactly as they are. Double-click a slider,
+  or click Reset, to go back to 0. Each recording opens at 0.
 * Frames are drawn at the resolution they are shown at. A 4000 × 3000 frame
   in a 700-pixel panel is drawn as the mean of 5 × 5 pixel blocks, because the
   screen cannot show more. Zooming in, or a larger window, draws it finer, down

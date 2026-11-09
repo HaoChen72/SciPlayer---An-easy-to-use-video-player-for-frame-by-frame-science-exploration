@@ -29,7 +29,7 @@ import time
 import traceback
 
 APP_NAME = 'SciPlayer'
-APP_VERSION = '1.3.5'
+APP_VERSION = '1.4.0'
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 import numpy as np
@@ -272,6 +272,19 @@ class Scanner(QtCore.QObject):
         self.job += 1
 
 
+class ResetSlider(QtWidgets.QSlider):
+    """a slider from -100 to 100 that goes back to 0 on a double-click"""
+    def __init__(self):
+        super().__init__(Qt.Horizontal)
+        self.setRange(-100, 100)
+        self.setValue(0)
+        self.setFocusPolicy(Qt.NoFocus)                  # (the arrow keys step through frames)
+
+    def mouseDoubleClickEvent(self, ev):
+        self.setValue(0)
+        ev.accept()
+
+
 class Segmented(QtWidgets.QFrame):
     """a flat segmented switch (like a combo box: currentIndex, setCurrentIndex, currentIndexChanged)"""
     currentIndexChanged = QtCore.Signal(int)
@@ -511,6 +524,7 @@ class Player(QtWidgets.QMainWindow):
         self.range_str = 'auto'
         self.cmap = 'blue-white-red'
         self.clim_dff = (-1.0, 1.0)
+        self._raw_base = None                            # display range of the original before brightness / contrast
         self.F0 = None
         self.fps = float('nan')
         self.drawing = None
@@ -635,6 +649,28 @@ class Player(QtWidgets.QMainWindow):
         r2.addWidget(muted('Baseline'))
         r2.addWidget(self.e_base)
         r2.addStretch(1)
+        # brightness and contrast of the original frame: how it is drawn only (the display range),
+        # never its values, so dF/F, traces and exports stay as they are
+        self.s_bright, self.s_contrast = ResetSlider(), ResetSlider()
+        self._t(self.s_bright, 'setToolTip', 'brightness of the original frame, for display only: values, dF/F, traces and exports '
+                'do not change (double-click: back to 0)')
+        self._t(self.s_contrast, 'setToolTip', 'contrast of the original frame, for display only: values, dF/F, traces and exports '
+                'do not change (double-click: back to 0)')
+        self.l_bright, self.l_contrast = muted('Brightness'), muted('Contrast')
+        self.b_look_reset = QtWidgets.QToolButton()
+        self.b_look_reset.setObjectName('tool')
+        self.b_look_reset.setFocusPolicy(Qt.NoFocus)
+        self.b_look_reset.setCursor(Qt.PointingHandCursor)
+        self._t(self.b_look_reset, 'setText', 'Reset')
+        self._t(self.b_look_reset, 'setToolTip', 'brightness and contrast back to normal')
+        self.b_look_reset.clicked.connect(self.reset_look)
+        for l, s in ((self.l_bright, self.s_bright), (self.l_contrast, self.s_contrast)):
+            s.setFixedWidth(96)
+            s.valueChanged.connect(self._look_changed)
+            r2.addWidget(l)
+            r2.addWidget(s)
+        r2.addWidget(self.b_look_reset)
+        r2.addSpacing(14)
         r2.addWidget(muted('ROI'))
         for b in (self.b_rect, self.b_free, self.b_del):
             r2.addWidget(b)
@@ -854,6 +890,8 @@ class Player(QtWidgets.QMainWindow):
         if self.loaded:
             self._info_text()
             self._sound_state()
+            if self.strip.isVisible():
+                self._strip_update()                             # (its text, in the new language)
             self._traces()
             self.show_frame()
         else:
@@ -922,8 +960,10 @@ class Player(QtWidgets.QMainWindow):
     def _enable(self, on):
         for w in (self.b_export, self.b_save, self.c_view, self.e_base, self.b_rect, self.b_free, self.b_del,
                   self.b_prev, self.b_next, self.slider, self.e_frame, self.b_play, self.cb_loop, self.e_fps,
-                  self.l_range, self.e_range, self.l_cmap, self.c_cmap, self.cb_sound):
+                  self.l_range, self.e_range, self.l_cmap, self.c_cmap, self.cb_sound,
+                  self.l_bright, self.s_bright, self.l_contrast, self.s_contrast):
             w.setEnabled(on)
+        self.b_look_reset.setEnabled(on and self._look_changed_from_normal())
         if on:
             self._sound_state()
             rel = self.view == 'relative'
@@ -1037,6 +1077,7 @@ class Player(QtWidgets.QMainWindow):
         if src.in_memory:
             self.samples = self._memory_samples()
         self.clim_raw = self._raw_clim()
+        self.reset_look()                                       # (each recording starts as it is)
         self.e_base.setText(self.base_str)
         self.e_fps.setText(fmt_g(self.fps) if np.isfinite(self.fps) else '')
         self.slider.blockSignals(True)
@@ -1373,10 +1414,8 @@ class Player(QtWidgets.QMainWindow):
             rect = QtCore.QRectF(0.5, 0.5, self.W, self.H)
         else:
             rect = QtCore.QRectF(x0 + 0.5, y0 + 0.5, g.shape[1] * st, g.shape[0] * st)
-        if self.is_rgb and g.dtype == np.uint8:
-            self.img1.setImage(g, autoLevels=False, levels=(0, 255))
-        else:
-            self.img1.setImage(g, autoLevels=False, levels=self.clim_raw)
+        self._raw_base = (0, 255) if self.is_rgb and g.dtype == np.uint8 else self.clim_raw
+        self.img1.setImage(g, autoLevels=False, levels=self.raw_levels())
         self.img1.setRect(rect)
         if self.view == 'relative' and self.F0 is not None:
             if small:                                            # the scrubbing copy: F0 at its size
@@ -1395,6 +1434,32 @@ class Player(QtWidgets.QMainWindow):
         if self.drawing is None:
             self.title.setText(self._title_text())
         self.setWindowTitle('%s - %s - %s' % (APP_NAME, os.path.basename(self.file), tr('frame %d / %d') % (k + 1, self.N)))
+
+    # ------------------------------------------------------------------ brightness and contrast
+    def raw_levels(self, base=None):
+        """the display range of the original frame: its normal range (BASE) narrowed by the contrast
+        (x 2^(c/50): x0.25 .. x4) and moved by the brightness (b/100 of the normal range: +100 shows
+        the normal maximum as black) - only how values map to grey; the values stay as they are"""
+        lo, hi = (self._raw_base if base is None else base) or (0.0, 1.0)
+        lo, hi = float(lo), float(hi)
+        w = (hi - lo) / 2.0 ** (self.s_contrast.value() / 50.0)
+        mid = (lo + hi) / 2.0 - self.s_bright.value() / 100.0 * (hi - lo)
+        return (mid - w / 2.0, mid + w / 2.0)
+
+    def _look_changed_from_normal(self):
+        return self.s_bright.value() != 0 or self.s_contrast.value() != 0
+
+    def _look_changed(self, *_):
+        self.b_look_reset.setEnabled(self.loaded and self._look_changed_from_normal())
+        if self.loaded and self._raw_base is not None and self.img1.image is not None:
+            self.img1.setLevels(self.raw_levels())               # (the same image, other levels: instant)
+
+    def reset_look(self):
+        for s in (self.s_bright, self.s_contrast):
+            s.blockSignals(True)
+            s.setValue(0)
+            s.blockSignals(False)
+        self._look_changed()
 
     def _display_step(self):
         """S: frames are drawn as the mean of S x S pixel blocks, about one block per screen pixel of the

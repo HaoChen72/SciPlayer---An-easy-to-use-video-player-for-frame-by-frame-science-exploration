@@ -91,7 +91,8 @@ or save the view as PNG.
 
 **Look closer.** Ctrl + mouse wheel zooms at the mouse, in both panels at once. Drag to move
 around, double-click to see the whole frame again. Even 4000 × 3000 frames play smoothly in the
-relative-change view.
+relative-change view. Brightness and contrast sliders change how the original is shown, never its
+values, so the relative change, traces and exports stay exact.
 
 **Feels like a modern app.** Dark and light themes, English, 简体中文 and 繁體中文, a draggable
 split between video and traces, and file associations so a double-click opens your recordings.
@@ -113,12 +114,13 @@ split between video and traces, and file associations so a double-click opens yo
 | Jump to a moment | Click a trace |
 | Open a file | Ctrl + O, or drop it on the window |
 | Cancel drawing a region | Esc or right-click |
+| Brightness / contrast back to 0 | Double-click its slider |
 
 ## Two editions
 
 | | |
 |---|---|
-| [**SciPlayer for Windows**](windows/) (1.3.5) | The installable app described here. Python source (PySide6, pyqtgraph, PyAV/FFmpeg), built into a self-contained installer. The [Windows README](windows/README.md) explains how it works and how to build it. |
+| [**SciPlayer for Windows**](windows/) (1.4.0) | The installable app described here. Python source (PySide6, pyqtgraph, PyAV/FFmpeg), built into a self-contained installer. The [Windows README](windows/README.md) explains how it works and how to build it. |
 | [**SciPlayer for MATLAB**](sciplayer.m) (0.2.0) | One file, base MATLAB only, scriptable from your own code. See [README_MATLAB.md](README_MATLAB.md). |
 
 ## FAQ

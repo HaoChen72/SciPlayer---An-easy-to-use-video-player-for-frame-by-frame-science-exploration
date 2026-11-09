@@ -1,7 +1,7 @@
 import os, sys, time, numpy as np
 os.environ['SCIPLAYER_TEST'] = '1'
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'app'))
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtCore import Qt
 import sciplayer as sp, sciplayer_io as sio
 app = QtWidgets.QApplication.instance() or QtWidgets.QApplication(['t'])
@@ -73,6 +73,25 @@ hdr = L[4].split(','); row = L[5 + 80].split(',')
 chk(L[1].startswith('% ROI 1 outline x:') and hdr[:4] == ['frame', 'recorded_frame', 'time_s', 'whole_frame_mean'] and len(L) == 5 + 120, 'CSV layout')
 chk(abs(float(row[3]) - tr[80]) < 1e-3 and abs(float(row[2]) - 4.0) < 1e-9, 'CSV values')
 w.goto(80); chk(w.save_view('/tmp/view_rel.png') and os.path.getsize('/tmp/view_rel.png') > 20000, 'save view PNG')
+# --- brightness and contrast: how the original is drawn, never its values
+im1, im2, f80 = w.img1.image.copy(), w.img2.image.copy(), w.frame(80).copy()
+ys = [r['y'].copy() for r in w.trace_rows]; csv0 = open('/tmp/tr.csv').read()
+chk(np.allclose(w.img1.levels, w.clim_raw) and not w.b_look_reset.isEnabled(), 'brightness and contrast at 0: the normal display range')
+w.s_bright.setValue(40); w.s_contrast.setValue(50); app.processEvents()
+lo, hi = w.clim_raw; wd = (hi - lo) / 2; mid = (lo + hi) / 2 - 0.4 * (hi - lo)
+chk(np.allclose(w.img1.levels, (mid - wd / 2, mid + wd / 2)) and w.b_look_reset.isEnabled(),
+    'brightness +40, contrast +50: display range %.3g..%.3g (normal %.3g..%.3g)' % (tuple(w.img1.levels) + tuple(w.clim_raw)))
+chk(np.array_equal(w.img1.image, im1) and np.array_equal(w.frame(80), f80), 'the drawn values and the frame are unchanged')
+chk(np.array_equal(w.img2.image, im2, equal_nan=True) and all(np.array_equal(a, r['y'], equal_nan=True) for a, r in zip(ys, w.trace_rows)),
+    'dF/F image and every trace unchanged')
+w.export_csv('/tmp/tr_bc.csv'); chk(open('/tmp/tr_bc.csv').read() == csv0, 'exported CSV identical')
+w.goto(81); w.goto(80); app.processEvents()
+chk(np.allclose(w.img1.levels, (mid - wd / 2, mid + wd / 2)), 'kept while stepping through frames')
+w.s_contrast.setValue(-100); lv = w.img1.levels; chk(np.isclose(lv[1] - lv[0], 4 * (hi - lo)), 'contrast -100: 4 x the range (flatter)')
+w.s_bright.mouseDoubleClickEvent(QtGui.QMouseEvent(QtCore.QEvent.MouseButtonDblClick, QtCore.QPointF(5, 5), QtCore.QPointF(5, 5),
+                                                    Qt.LeftButton, Qt.LeftButton, Qt.NoModifier))
+chk(w.s_bright.value() == 0 and w.s_contrast.value() == -100, 'double-click: that slider back to 0')
+w.b_look_reset.click(); chk(np.allclose(w.img1.levels, w.clim_raw) and not w.b_look_reset.isEnabled(), 'Reset: both back to 0')
 # --- playback: real time at the frame rate
 w.goto(0); t0 = time.perf_counter(); w.play(20)
 while w.b_play.isChecked() and time.perf_counter() - t0 < 5: app.processEvents(); time.sleep(0.001)
@@ -424,6 +443,14 @@ if os.path.exists(BIG):
     w.stop()
     chk(n >= 0.65 * 60 and badp == 0, 'played from disk in the dF/F view: %d frames in 2 s at 30 Hz (the rest skipped to keep time), every one the right frame' % n)
     w.set_view('original')
+
+# --- brightness and contrast of a colour video; a new recording starts at 0
+w.load_file(os.path.abspath('colour_h264.mp4')); w.goto(5); app.processEvents()
+c1 = w.img1.image.copy(); w.s_bright.setValue(-30); w.s_contrast.setValue(25); app.processEvents()
+chk(w.is_rgb and np.allclose(w.img1.levels, w.raw_levels((0, 255))) and not np.allclose(w.img1.levels, (0, 255))
+    and np.array_equal(w.img1.image, c1), 'colour video: display range %.0f..%.0f, the colours themselves unchanged' % tuple(w.img1.levels))
+w.load_file(os.path.abspath('grey_ffv1.avi')); app.processEvents()
+chk(w.s_bright.value() == 0 and w.s_contrast.value() == 0 and np.allclose(w.img1.levels, w.clim_raw), 'another recording opens at brightness 0, contrast 0')
 
 # --- languages: every text of the window in 简体中文 and 繁體中文, and back
 import re, ast, sciplayer_i18n as i18n

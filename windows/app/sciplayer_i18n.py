@@ -65,7 +65,8 @@ HELP_EN = ('<b>Keyboard and mouse</b><br>'
            'Drag the edge above the slider: frame / traces<br>Drop a file on the window: open it<br>'
            'Esc or right-click: cancel drawing an ROI<br>'
            'Ctrl + mouse wheel: zoom in / out where the mouse points<br>'
-           'Zoomed in: drag to move; double-click or Ctrl+0: the whole frame')
+           'Zoomed in: drag to move; double-click or Ctrl+0: the whole frame<br>'
+           'Double-click Brightness / Contrast: back to 0 (they change only how the original is shown)')
 
 # English: (简体中文, 繁體中文)
 T = {
@@ -96,6 +97,16 @@ T = {
     'Baseline': ('基线', '基線'),
     'frames of the player (1..N) whose mean is F0, e.g. 1-10  or  1-10, 200-210':
         ('取平均作为 F0 的帧（1..N），例如 1-10 或 1-10, 200-210', '取平均作為 F0 的影格（1..N），例如 1-10 或 1-10, 200-210'),
+    'Brightness': ('亮度', '亮度'),
+    'Contrast': ('对比度', '對比度'),
+    'Reset': ('复原', '復原'),
+    'brightness and contrast back to normal': ('亮度与对比度恢复原状', '亮度與對比度恢復原狀'),
+    'brightness of the original frame, for display only: values, dF/F, traces and exports do not change (double-click: back to 0)':
+        ('原始画面的亮度，仅用于显示：数值、dF/F、曲线与导出结果都不变（双击：恢复为 0）',
+         '原始畫面的亮度，僅用於顯示：數值、dF/F、曲線與匯出結果都不變（按兩下：恢復為 0）'),
+    'contrast of the original frame, for display only: values, dF/F, traces and exports do not change (double-click: back to 0)':
+        ('原始画面的对比度，仅用于显示：数值、dF/F、曲线与导出结果都不变（双击：恢复为 0）',
+         '原始畫面的對比度，僅用於顯示：數值、dF/F、曲線與匯出結果都不變（按兩下：恢復為 0）'),
     'Rectangle': ('矩形', '矩形'),
     'Freehand': ('手绘', '手繪'),
     'Remove': ('删除', '刪除'),
@@ -121,11 +132,13 @@ T = {
     HELP_EN: ('<b>键盘与鼠标</b><br>左 / 右方向键：一帧（Shift：10 帧）<br>鼠标滚轮：逐帧滚动<br>空格键：播放 / 暂停<br>'
               'Home / End：第一帧 / 最后一帧<br>拖动滑块：每一帧都流畅显示<br>点击曲线：跳到该时刻<br>'
               '拖动滑块上方的边界：调整画面与曲线的大小<br>把文件拖入窗口：打开它<br>Esc 或右键：取消绘制 ROI<br>'
-              'Ctrl + 鼠标滚轮：以鼠标所指处为中心放大 / 缩小<br>放大后：拖动可移动画面；双击或 Ctrl+0：显示整帧',
+              'Ctrl + 鼠标滚轮：以鼠标所指处为中心放大 / 缩小<br>放大后：拖动可移动画面；双击或 Ctrl+0：显示整帧<br>'
+              '双击亮度 / 对比度滑块：恢复为 0（只改变原始画面的显示方式）',
               '<b>鍵盤與滑鼠</b><br>左 / 右方向鍵：一格（Shift：10 格）<br>滑鼠滾輪：逐格捲動<br>空白鍵：播放 / 暫停<br>'
               'Home / End：第一格 / 最後一格<br>拖曳滑桿：每一格都流暢顯示<br>點擊曲線：跳到該時刻<br>'
               '拖曳滑桿上方的邊界：調整畫面與曲線的大小<br>把檔案拖入視窗：開啟它<br>Esc 或右鍵：取消繪製 ROI<br>'
-              'Ctrl + 滑鼠滾輪：以滑鼠所指處為中心放大 / 縮小<br>放大後：拖曳可移動畫面；按兩下或 Ctrl+0：顯示整格'),
+              'Ctrl + 滑鼠滾輪：以滑鼠所指處為中心放大 / 縮小<br>放大後：拖曳可移動畫面；按兩下或 Ctrl+0：顯示整格<br>'
+              '在亮度 / 對比度滑桿上按兩下：恢復為 0（只改變原始畫面的顯示方式）'),
     # opening
     'SciPlayer: choose a recording': ('SciPlayer：选择记录文件', 'SciPlayer：選擇記錄檔'),
     'Videos, TIFF stacks, MAT-files (%s);;All files (*.*)': ('视频、TIFF 序列、MAT 文件 (%s);;所有文件 (*.*)', '影片、TIFF 序列、MAT 檔 (%s);;所有檔案 (*.*)'),
