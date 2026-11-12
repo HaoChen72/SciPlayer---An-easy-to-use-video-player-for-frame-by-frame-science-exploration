@@ -6,7 +6,7 @@
 #   3. prune what SciPlayer does not use
 #   4. SciPlayer.exe launcher (MinGW-w64, with the icon, version and manifest)
 #   5. the installer (NSIS): dist/SciPlayer-<version>-Setup-x64.exe
-# Needs: python3 (with py-rattler in $VENV), x86_64-w64-mingw32-gcc / windres, makensis.
+# Needs: python3 (with py-rattler and pefile in $VENV), x86_64-w64-mingw32-gcc / windres, makensis.
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 VERSION="$(grep -oP "APP_VERSION = '\K[^']+" "$HERE/app/sciplayer.py")"
@@ -81,6 +81,10 @@ for d, _, fs in os.walk(root):
     if os.path.abspath(d) == lib:
         continue
     start += [os.path.join(d, f) for f in fs if f.lower().endswith(('.pyd', '.dll'))]
+# Windows' own ICU (System32\icuuc.dll, icuin.dll, icu.dll): Qt imports it from there. conda's ICU under the
+# same name must not be kept, as Library\bin is searched before System32 and Qt would get it and not load
+# (its functions carry a version suffix: ucnv_open_78, not ucnv_open). conda's own users take icuuc78.dll.
+windows_own = {'icu.dll', 'icuuc.dll', 'icuin.dll'}
 def named(path):                  # DLLs it names otherwise: export forwarders ("libopenblas.cblas_sdot", as
     data = open(path, 'rb').read().lower()       # in conda's libcblas) and names it loads at run time
     return {f for f in have if f.encode() in data or (f[:-4] + '.').encode() in data}
@@ -88,7 +92,7 @@ need, todo = set(), list(start)
 while todo:
     p = todo.pop()
     deps = imports(p) | (named(p) if os.path.dirname(os.path.abspath(p)) == lib else set())
-    for dep in deps:
+    for dep in deps - windows_own:
         if dep in have and dep not in need:
             need.add(dep)
             todo.append(have[dep])
@@ -97,6 +101,44 @@ gone = [f for f in have if f not in need and not f.startswith(keep)]
 for f in gone:
     os.remove(have[f])
 print('Library/bin: %d DLLs kept, %d that nothing loads removed' % (len(have) - len(gone), len(gone)))
+EOF
+# every function each module imports must be in the DLL Windows gives it: its own folder's copy, or a copy in
+# the folders searched before System32 (runtime\, Library\bin\; a DLL already loaded by name is shared).
+# Wine supplies its own C++ runtime and ICU, so a mismatch here does not show up in tests under Wine.
+"$VENV/bin/python" - . <<'EOF'
+import os, sys, collections, pefile
+pefile.MAX_IMPORT_SYMBOLS = 1 << 20                     # (Qt's tables are large)
+root = os.path.abspath(sys.argv[1])
+copies = collections.defaultdict(list)
+for d, _, fs in os.walk(root):
+    for f in fs:
+        if f.lower().endswith(('.dll', '.pyd')):
+            copies[f.lower()].append(os.path.join(d, f))
+shared = {os.path.normcase(root), os.path.normcase(os.path.join(root, 'Library', 'bin'))}
+exp = {}
+def exports(p):
+    if p not in exp:
+        pe = pefile.PE(p, fast_load=True, max_symbol_exports=1 << 20)
+        pe.parse_data_directories([pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_EXPORT']])
+        exp[p] = {s.name for s in pe.DIRECTORY_ENTRY_EXPORT.symbols if s.name} if hasattr(pe, 'DIRECTORY_ENTRY_EXPORT') else set()
+    return exp[p]
+bad = []
+for name, ps in copies.items():
+    for p in ps:
+        pe = pefile.PE(p, fast_load=True)
+        pe.parse_data_directories([pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_IMPORT']])
+        for e in getattr(pe, 'DIRECTORY_ENTRY_IMPORT', []):
+            dep = e.dll.decode().lower()
+            want = {i.name for i in e.imports if i.name}
+            for c in copies.get(dep, []):
+                if os.path.dirname(c) == os.path.dirname(p) or os.path.normcase(os.path.dirname(c)) in shared:
+                    miss = want - exports(c)
+                    if miss:
+                        bad.append('%s needs %d functions that %s lacks, e.g. %s'
+                                   % (os.path.relpath(p, root), len(miss), os.path.relpath(c, root), sorted(miss)[0].decode()))
+if bad:
+    sys.exit('DLLs that would not load on Windows:\n  ' + '\n  '.join(bad))
+print('imports: every module finds its functions')
 EOF
 
 # ---- 4. launcher ----------------------------------------------------------------------------

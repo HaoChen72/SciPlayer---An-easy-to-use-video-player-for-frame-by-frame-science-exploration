@@ -120,7 +120,7 @@ split between video and traces, and file associations so a double-click opens yo
 
 | | |
 |---|---|
-| [**SciPlayer for Windows**](windows/) (1.4.0) | The installable app described here. Python source (PySide6, pyqtgraph, PyAV/FFmpeg), built into a self-contained installer. The [Windows README](windows/README.md) explains how it works and how to build it. |
+| [**SciPlayer for Windows**](windows/) (1.4.1) | The installable app described here. Python source (PySide6, pyqtgraph, PyAV/FFmpeg), built into a self-contained installer. The [Windows README](windows/README.md) explains how it works and how to build it. |
 | [**SciPlayer for MATLAB**](sciplayer.m) (0.2.0) | One file, base MATLAB only, scriptable from your own code. See [README_MATLAB.md](README_MATLAB.md). |
 
 ## FAQ

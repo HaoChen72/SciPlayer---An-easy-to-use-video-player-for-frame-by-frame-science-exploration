@@ -29,8 +29,40 @@ import time
 import traceback
 
 APP_NAME = 'SciPlayer'
-APP_VERSION = '1.4.0'
+APP_VERSION = '1.4.1'
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def _log_path():
+    base = os.environ.get('LOCALAPPDATA') or os.path.expanduser('~')
+    d = os.path.join(base, APP_NAME)
+    os.makedirs(d, exist_ok=True)
+    return os.path.join(d, 'sciplayer_error.log')
+
+
+def _cannot_start(t, v, tb):
+    """until the window is there (Qt itself may be what fails to load): say so, never end silently"""
+    text = ''.join(traceback.format_exception(t, v, tb))
+    log = ''
+    try:
+        log = _log_path()
+        with open(log, 'a', encoding='utf-8') as fh:
+            fh.write('\n==== %s  (SciPlayer %s cannot start)\n%s' % (time.strftime('%Y-%m-%d %H:%M:%S'), APP_VERSION, text))
+    except Exception:
+        pass
+    if sys.stderr:
+        sys.stderr.write(text)
+    if sys.platform == 'win32':
+        try:
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(None, 'SciPlayer cannot start:\n\n%s: %s\n\nDetails: %s' % (t.__name__, v, log),
+                                             'SciPlayer', 0x10)
+        except Exception:
+            pass
+
+
+if __name__ == '__main__':
+    sys.excepthook = _cannot_start
 
 import numpy as np
 from PySide6 import QtCore, QtGui, QtWidgets
@@ -2373,13 +2405,6 @@ class Player(QtWidgets.QMainWindow):
 # =============================================================================
 # start
 # =============================================================================
-def _log_path():
-    base = os.environ.get('LOCALAPPDATA') or os.path.expanduser('~')
-    d = os.path.join(base, APP_NAME)
-    os.makedirs(d, exist_ok=True)
-    return os.path.join(d, 'sciplayer_error.log')
-
-
 def _excepthook(t, v, tb):
     text = ''.join(traceback.format_exception(t, v, tb))
     try:

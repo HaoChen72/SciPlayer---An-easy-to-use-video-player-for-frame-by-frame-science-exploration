@@ -97,7 +97,7 @@ SciPlayer 正是为这种“细看”而设计的。
 
 | | |
 |---|---|
-| [**SciPlayer for Windows**](windows/)（1.4.0） | 本页介绍的可安装应用。Python 源代码（PySide6、pyqtgraph、PyAV/FFmpeg），打包为自带运行环境的安装程序。其[说明文档](windows/README.md)介绍工作原理与构建方法。 |
+| [**SciPlayer for Windows**](windows/)（1.4.1） | 本页介绍的可安装应用。Python 源代码（PySide6、pyqtgraph、PyAV/FFmpeg），打包为自带运行环境的安装程序。其[说明文档](windows/README.md)介绍工作原理与构建方法。 |
 | [**SciPlayer for MATLAB**](sciplayer.m)（0.2.0） | 单个文件，仅需基础 MATLAB，可在你自己的代码中调用。见 [README_MATLAB.md](README_MATLAB.md)。 |
 
 ## 常见问题

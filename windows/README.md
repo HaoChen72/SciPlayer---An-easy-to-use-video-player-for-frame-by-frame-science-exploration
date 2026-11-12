@@ -1,4 +1,4 @@
-# SciPlayer for Windows 1.4.0
+# SciPlayer for Windows 1.4.1
 
 The Windows 11 (64-bit) edition of SciPlayer: the same window and behaviour as
 `sciplayer.m` 0.2.0, as an installable program that needs nothing else on the
@@ -28,7 +28,7 @@ computer (no MATLAB, no Python). It ships its own Python 3.12, Qt 6 and FFmpeg.
 
 ## Install
 
-Run `dist\SciPlayer-1.4.0-Setup-x64.exe`. It installs over an earlier version; there is no need to
+Run `dist\SciPlayer-1.4.1-Setup-x64.exe`. It installs over an earlier version; there is no need to
 uninstall that first.
 
 * The installer first asks for its language, every time it runs, with the
@@ -194,10 +194,10 @@ Errors are logged in `%LOCALAPPDATA%\SciPlayer\sciplayer_error.log`.
 ## Build
 
 On Linux, with MinGW-w64 and NSIS installed, and a Python virtual environment
-with `py-rattler` (by default `windows/.venv`, or set `VENV`):
+with `py-rattler` and `pefile` (by default `windows/.venv`, or set `VENV`):
 
 ```
-python3 -m venv .venv && .venv/bin/pip install py-rattler
+python3 -m venv .venv && .venv/bin/pip install py-rattler pefile
 ./build_windows.sh            # -> dist/SciPlayer-<version>-Setup-x64.exe
 ```
 
@@ -210,9 +210,17 @@ are GPL, and a GPL part would oblige the whole program to be GPL. The build
 lists the licence of every conda package in `LICENSES.txt` and stops if any of
 them is GPL only.
 
+It also checks every DLL and Python module of the installation against the DLL
+Windows would give it, and stops if any function it imports is missing there.
+Tests under Wine cannot show such a mismatch, because Wine supplies its own C++
+runtime and ICU. Version 1.4.0 did not start on Windows for exactly this reason:
+it shipped conda-forge's ICU as `icuuc.dll`, the name of Windows' own ICU, which
+Qt imports from System32. `Library\bin` is searched first, so Qt got the wrong
+`icuuc.dll` and did not load.
+
 This build was tested under Wine 9 (Windows 11 mode). The tests covered the
 install for all users and for the current user, the registry entries,
-double-click opening, a real mouse drag for both ROI shapes, all 106
+double-click opening, a real mouse drag for both ROI shapes, all 117
 self-tests and a clean uninstall. The sound was checked with a stand-in
 device, because the test machine has no sound card. Wine 9 cannot run some newer libraries, so the
 versions are pinned to ones that run there: numpy 1.26, Qt 6.10 and h5py 3.12.
